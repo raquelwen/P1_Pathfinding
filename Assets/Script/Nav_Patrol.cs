@@ -4,37 +4,41 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class Nav_Patrol : MonoBehaviour
-
 {
-    private GameObject waypointParent;
     private NavMeshAgent agent;
+    public GameObject waypointParent;
     private GameObject[] waypoints;
-    private int waypointIndex = 0;
+    private int waypointintIndex = 0;
     private int maxWaypoints;
+
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         maxWaypoints = waypointParent.transform.childCount;
-        for(int i = 0; i < maxWaypoints; i++)
+        waypoints = new GameObject[maxWaypoints];
+
+        for (int i = 0; i < maxWaypoints; i++)
         {
             waypoints[i] = waypointParent.transform.GetChild(i).gameObject;
+
         }
-        GetToNextWaypoint(); ;
+        GoToNextWaypoint();
+
     }
 
     // Update is called once per frame
-    void Update()
+    void Update() //Si he llegado al destino me voy al siguiente (sumo uno)
     {
-        if(agent.remainingDistance < 0.1)
+        if (agent.remainingDistance < 0.1)
         {
-            waypointIndex = (waypointIndex + 1) % maxWaypoints;
-            GetToNextWaypoint();
+            waypointintIndex = (waypointintIndex + 1) % maxWaypoints;
+            GoToNextWaypoint();
         }
     }
 
-    private void GetToNextWaypoint()
+    private void GoToNextWaypoint()
     {
-        agent.SetDestination(waypoints[waypointIndex].transform.position);
+        agent.SetDestination(waypoints[waypointintIndex].transform.position);
     }
 }
