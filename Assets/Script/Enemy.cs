@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Enemy Collision. 1 life lost");
             gameManager.PerderVida();
         }
     }

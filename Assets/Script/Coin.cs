@@ -21,6 +21,8 @@ public class NewBehaviourScript : MonoBehaviour
             Debug.Log("Coin");
             gameManager.SumarPuntos(coinValue);
             Destroy(this.gameObject);
+            //Si ha cogido todas las monedas, ha ganado el juego
+            gameManager.GanarJuego();
         }
     }
 }

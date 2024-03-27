@@ -34,4 +34,12 @@ public class GameManager : MonoBehaviour
         //Si tenemos 3 vidas y perdemos 1, nos quedamos con 2 vidas. Desactivamos la vida en la posicion 2. 
         //La posicion de la vida que queremos desactivar coincide con el numero de vidas despues de haber perdido 1. 
     }
+
+    public void GanarJuego()
+    {
+        if(puntosTotales == 12)
+        {
+            SceneManager.LoadScene(2);
+        }
+    }
 }
