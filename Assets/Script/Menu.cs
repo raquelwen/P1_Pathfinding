@@ -35,16 +35,8 @@ public class Menu : MonoBehaviour
         //dbManager.dbConnection.Open();
         dbManager.Opendatabase();
         Debug.Log("Base de datos abierta");
-        dbManager.InitializeDB();
-
-       
-        dbManager.Login(currentUser, currentPassword);
-
-       
-        //SceneManager.LoadScene(name);
-        //dbManager.dbConnection.Close();
-        //currentUser = null;
-        //currentPassword=null;   
+        dbManager.InitializeDB();       
+        dbManager.Login(currentUser, currentPassword);       
 
     }
 }

@@ -2669,7 +2669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 1192835860}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 1444686084}
 --- !u!1 &592228603
 GameObject:
   m_ObjectHideFlags: 0
@@ -6361,8 +6361,8 @@ MonoBehaviour:
   hud: {fileID: 335975215}
   vidas: 3
   dbManager: {fileID: 577454597}
-  currentPuntos: 
-  currentVidas: 
+  currentPuntos: 0
+  currentVidas: 0
 --- !u!4 &1444686085
 Transform:
   m_ObjectHideFlags: 0

@@ -10,28 +10,34 @@ using UnityEditor;
 using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
 using UnityEditor.Experimental.GraphView;
+using static UnityEditor.PlayerSettings;
 
 public class DBManager : MonoBehaviour
 {
     private string dbUri = "URI=file:dbPathfinding.sqlite";
-    private string SQL_CREATE_PLAYER = "CREATE TABLE IF NOT EXISTS Players (Id INTEGER UNIQUE NOT NULL PRIMARY KEY, User TEXT NOT NULL DEFAULT 'NEW USER', Password NOT NULL);";
+    private string SQL_CREATE_PLAYER = "CREATE TABLE IF NOT EXISTS Players" +
+        " (Id INTEGER UNIQUE NOT NULL PRIMARY KEY" +        
+        ", User TEXT NOT NULL" +
+        ", Password NOT NULL);";
+        
     private string SQL_COUNT_ELEMENTS = "SELECT count(*) FROM Players;";
     private string SQL_CREATE_USER = "CREATE TABLE IF NOT EXISTS Users" +        
         "(Id INTEGER UNIQUE NOT NULL PRIMARY KEY" +
-        ", Puntos INTEGER NOT NULL DEFAULT '0', Vidas INTEGER NOT NULL DEFAULT '0'"+"" +
-        ",  FOREIGN KEY (Id) REFERENCES Players (Id));";
-    //private string[] USERS = {};
-    //private string[] PASSWORDS = {};  
+        ", PlayerId INTEGER" +
+        ", Puntos INTEGER NOT NULL DEFAULT 0" +
+        ", Vida INTEGER NOT NULL DEFAULT 0"+
+        ", FOREIGN KEY(PlayerId) REFERENCES Players(Id));";
+    private string[] USUARIOS = { "Alejandro", "Raquel", "Shara", "Ainoa", "Ricardo", "Carlos"};
     public Menu menu;
     public IDbConnection dbConnection;
-    //public HUD hud;
-    public GameManager gameManager;   
-
+    public GameManager gameManager;
 
     void Start()
     {
         Debug.Log("Start");
     }
+
+   
 
     public IDbConnection Opendatabase()
     {
@@ -47,61 +53,80 @@ public class DBManager : MonoBehaviour
 
     public void InitializeDB()
     {
-        IDbCommand dbCmd = dbConnection.CreateCommand();
-        dbCmd.CommandText = SQL_CREATE_PLAYER + SQL_CREATE_USER;
-        dbCmd.ExecuteReader();
+        IDbCommand dbCmd = dbConnection.CreateCommand();       
+        dbCmd.CommandText = SQL_CREATE_PLAYER + SQL_CREATE_USER;      
+        dbCmd.ExecuteReader();        
     }
-
+   
     public void InsertNewUser()
     {
-        if (CountNumberElements() > 0)
+        //if (CountNumberElements() > 0)
         {
             string user = menu.currentUser;
-            string password = menu.currentPassword;            
+            string password = menu.currentPassword;
+            //int puntos = gameManager.currentPuntos;
+            //int vidas = gameManager.currentVidas;
 
-            
-                Debug.Log("Insertando datos de login");
+
+            Debug.Log("Insertando datos de login");
                 string command = "INSERT INTO Players (User, Password) VALUES ";
                 command += $"('{user}', '{password}'),";
                 Debug.Log(command);
                 command = command.Remove(command.Length - 1, 1);
                 command += ";";
 
-                IDbCommand dbCommand = dbConnection.CreateCommand();
-                dbCommand.CommandText = command;
-                dbCommand.ExecuteNonQuery();
-            
-        
-        }        
-    }
-
-    public void InsertDataUsers()
-    {
-        //int puntos = gameManager.currentPuntos;
-        int puntos = gameManager.puntosTotales;
-        //int vidas = gameManager.currentVidas;
-        int vidas = gameManager.vidas;
-        if(vidas > 0)
-        {
-            Debug.Log("Insertando datos del juego");
-            string command = "INSERT INTO Users (Puntos, Vida) VALUES ";
-            command += $"('{puntos}', '{vidas}'),";
-            Debug.Log(command);
-            command = command.Remove(command.Length - 1, 1);
-            command += ";";
-
+            //Debug.Log("Insertando datos del juego");
+            //command = "INSERT INTO Users (Puntos, Vida) VALUES ";
+            //command += $"('{puntos}', '{vidas}'),";
+            //Debug.Log(command);
+            //command = command.Remove(command.Length - 1, 1);
+            //command += ";";
 
             IDbCommand dbCommand = dbConnection.CreateCommand();
             dbCommand.CommandText = command;
             dbCommand.ExecuteNonQuery();
-        }
-        else
-        {
-            Debug.Log("Fin del juego: base de datos cerrada");
-            dbConnection.Close();   
-        }
-       
+        }        
     }
+
+    public void InsertDataUsers(int puntos, int vidas)
+    {
+        //int puntos = gameManager.currentPuntos;
+        //  puntos = gameManager.puntosTotales;
+        //int vidas = gameManager.currentVidas;
+        //vidas = gameManager.vidas;
+
+        Debug.Log("Insertando datos del juego");
+        string command = "INSERT INTO Users (Puntos, Vida) VALUES ";
+        command += $"('{puntos}', '{vidas}'),";
+        Debug.Log(command);
+        command = command.Remove(command.Length - 1, 1);
+        command += ";";
+
+
+        IDbCommand dbCommand = dbConnection.CreateCommand();
+        dbCommand.CommandText = command;
+        dbCommand.ExecuteNonQuery();
+
+    }
+
+    //public void AddRandomData()
+    //{
+    //    if (CountNumberElements() > 0)
+    //    {
+    //        return;
+    //    }
+    //    int num_usuarios = USUARIOS.Length;        
+    //    string command = "INSERT INTO Users (Nombre) VALUES ";
+    //    for (int i = 0; i < num_usuarios; i++)
+    //    {
+    //        command += $"('{USUARIOS[i]}'),";
+    //    }
+    //    command = command.Remove(command.Length - 1, 1);
+    //    command += ";";
+    //    IDbCommand dbCommand = dbConnection.CreateCommand();
+    //    dbCommand.CommandText = command;
+    //    dbCommand.ExecuteNonQuery();
+    //}
 
     public bool EqualUser(string user, string password) //este funciona solo para user
     {
@@ -144,30 +169,17 @@ public class DBManager : MonoBehaviour
     }
 
     public bool Login(string user, string password)
-    {
-        //if (!SearchUserExists(user))
-        //{
-        //    Debug.Log("El usuario no existe: Cuenta creada");
-        //    InsertNewUser();
-        //    return false;
-        //}
+    {      
         if (!EqualUser(user, password)) //si no existe: false
         {           
-                Debug.Log("El usuario no existe: Cuenta creada");
-                InsertNewUser();
+            Debug.Log("El usuario no existe: Cuenta creada");
+            InsertNewUser();
             SceneManager.LoadScene(1);
             dbConnection.Close();
             return false;           
             
-        }
-
-        //else
-        //{
-        //    EqualPassword(password);    
-        //    return true;
-        //}    
+        }         
         return true;
-
     }
 
     private int CountNumberElements()
@@ -177,6 +189,14 @@ public class DBManager : MonoBehaviour
         IDataReader reader = dbCommand.ExecuteReader();
         reader.Read();
         return reader.GetInt32(0);
+    }
+
+    private void OnDestroy()
+    {
+        if (dbConnection != null)
+        {
+            dbConnection.Close();
+        }
     }
 }
 

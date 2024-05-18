@@ -803,7 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 1577260396}
-  gameManager: {fileID: 1171461459}
+  gameManager: {fileID: 1299029286}
 --- !u!4 &739839846
 Transform:
   m_ObjectHideFlags: 0
@@ -984,7 +984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 909e53280240f4f46bfd3c0f3d0def3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1171461459}
+  gameManager: {fileID: 1299029286}
   puntos: {fileID: 190420457}
   vidas: []
 --- !u!4 &920295993
@@ -1244,7 +1244,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1136992523}
   m_CullTransparentMesh: 1
---- !u!1 &1171461458
+--- !u!1 &1299029285
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1252,8 +1252,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1171461460}
-  - component: {fileID: 1171461459}
+  - component: {fileID: 1299029287}
+  - component: {fileID: 1299029286}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1261,13 +1261,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1171461459
+--- !u!114 &1299029286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1171461458}
+  m_GameObject: {fileID: 1299029285}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d6d2ce0ad416df4e82075201aa875f0, type: 3}
@@ -1275,17 +1275,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puntosTotales: 0
   hud: {fileID: 920295992}
-  vidas: 3
+  vidas: 0
   dbManager: {fileID: 739839845}
   currentPuntos: 0
   currentVidas: 0
---- !u!4 &1171461460
+--- !u!4 &1299029287
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1171461458}
+  m_GameObject: {fileID: 1299029285}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.519495, z: 0}
@@ -2369,4 +2369,4 @@ SceneRoots:
   - {fileID: 1577260397}
   - {fileID: 739839846}
   - {fileID: 920295993}
-  - {fileID: 1171461460}
+  - {fileID: 1299029287}

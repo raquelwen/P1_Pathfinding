@@ -11,8 +11,10 @@ public class HUD : MonoBehaviour
     public GameObject[] vidas;
     //public string currentPuntos;
     //public string currentVidas; 
-    
-   
+
+  
+
+
     // Update is called once per frame
     void Update()
     {
