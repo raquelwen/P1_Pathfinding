@@ -2669,6 +2669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 1192835860}
+  gameManager: {fileID: 0}
 --- !u!1 &592228603
 GameObject:
   m_ObjectHideFlags: 0
@@ -6356,7 +6357,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6d2ce0ad416df4e82075201aa875f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  puntosTotales: 0
   hud: {fileID: 335975215}
+  vidas: 3
+  dbManager: {fileID: 577454597}
+  currentPuntos: 
+  currentVidas: 
 --- !u!4 &1444686085
 Transform:
   m_ObjectHideFlags: 0
@@ -9548,5 +9554,5 @@ SceneRoots:
   - {fileID: 335975219}
   - {fileID: 1294586971}
   - {fileID: 1923674296}
-  - {fileID: 577454596}
   - {fileID: 1192835861}
+  - {fileID: 577454596}

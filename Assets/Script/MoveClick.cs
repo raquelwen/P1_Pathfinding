@@ -19,7 +19,7 @@ public class MoveClick : MonoBehaviour
     {
         if (Input.GetMouseButton(0)) //click izquierdo
         {
-            Debug.Log("Click");
+            //Debug.Log("Click");
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
