@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public DBManager dbManager;
     public int currentPuntos;
     public int currentVidas;
+    public Menu menu;
 
     public static GameManager Instance;
 
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour
                 
                 dbManager.InsertDataUsers(puntosTotales, vidas); // Pass the variables directly
                 
+                
                 SceneManager.LoadScene(2);
             }
             else
@@ -95,8 +97,9 @@ public class GameManager : MonoBehaviour
             if (dbManager != null)
             {
                 dbManager.Opendatabase();
+               
+                dbManager.InsertDataUsers(puntosTotales, vidas);
                 
-                dbManager.InsertDataUsers(puntosTotales, vidas); // Pass the variables directly
                 //dbManager.AddRandomData();
                 SceneManager.LoadScene(3);
             }

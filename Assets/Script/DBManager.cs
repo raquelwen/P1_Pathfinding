@@ -16,17 +16,17 @@ public class DBManager : MonoBehaviour
 {
     private string dbUri = "URI=file:dbPathfinding.sqlite";
     private string SQL_CREATE_PLAYER = "CREATE TABLE IF NOT EXISTS Players" +
-        " (Id INTEGER UNIQUE NOT NULL PRIMARY KEY" +        
+        " (Id INTEGER UNIQUE NOT NULL PRIMARY KEY" +
         ", User TEXT NOT NULL" +
         ", Password NOT NULL);";
-        
+
     private string SQL_COUNT_ELEMENTS = "SELECT count(*) FROM Players;";
-    private string SQL_CREATE_USER = "CREATE TABLE IF NOT EXISTS Users" +        
+    private string SQL_CREATE_USER = "CREATE TABLE IF NOT EXISTS Users" +
         "(Id INTEGER UNIQUE NOT NULL PRIMARY KEY" +
-        ", PlayerId INTEGER" +
+        //", PlayerId INTEGER NOT NULL DEFAULT 0" +
         ", Puntos INTEGER NOT NULL DEFAULT 0" +
-        ", Vida INTEGER NOT NULL DEFAULT 0"+
-        ", FOREIGN KEY(PlayerId) REFERENCES Players(Id));";
+        ", Vida INTEGER NOT NULL DEFAULT 0" +
+        ", FOREIGN KEY(Id) REFERENCES Players(Id));";
     private string[] USUARIOS = { "Alejandro", "Raquel", "Shara", "Ainoa", "Ricardo", "Carlos"};
     public Menu menu;
     public IDbConnection dbConnection;
@@ -75,33 +75,21 @@ public class DBManager : MonoBehaviour
                 command = command.Remove(command.Length - 1, 1);
                 command += ";";
 
-            //Debug.Log("Insertando datos del juego");
-            //command = "INSERT INTO Users (Puntos, Vida) VALUES ";
-            //command += $"('{puntos}', '{vidas}'),";
-            //Debug.Log(command);
-            //command = command.Remove(command.Length - 1, 1);
-            //command += ";";
-
             IDbCommand dbCommand = dbConnection.CreateCommand();
             dbCommand.CommandText = command;
             dbCommand.ExecuteNonQuery();
         }        
     }
 
+
     public void InsertDataUsers(int puntos, int vidas)
     {
-        //int puntos = gameManager.currentPuntos;
-        //  puntos = gameManager.puntosTotales;
-        //int vidas = gameManager.currentVidas;
-        //vidas = gameManager.vidas;
-
         Debug.Log("Insertando datos del juego");
         string command = "INSERT INTO Users (Puntos, Vida) VALUES ";
         command += $"('{puntos}', '{vidas}'),";
         Debug.Log(command);
         command = command.Remove(command.Length - 1, 1);
         command += ";";
-
 
         IDbCommand dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = command;
@@ -150,6 +138,7 @@ public class DBManager : MonoBehaviour
             {                
                 Debug.Log("Contraseña correcta");
                 Debug.Log("Inicio de sesión exitoso.");
+                
                 SceneManager.LoadScene(1);
                 dbConnection.Close();
                 return true;
