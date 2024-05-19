@@ -1,5 +1,5 @@
 # Caza tesoros
-##Descripción del Juego
+## Descripción del Juego
 Caza tesoros es un emocionante juego de aventuras donde el jugador debe moverse por un mapa recolectando todas las monedas distribuidas en el escenario. El objetivo principal es recolectar todas las monedas evitando a los enemigos que intentarán atraparte. Si un enemigo te alcanza, te restará vida y podrías perder el juego.
 
 ## Objetivo del Juego
