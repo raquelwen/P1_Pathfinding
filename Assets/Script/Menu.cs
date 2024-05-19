@@ -20,8 +20,6 @@ public class Menu : MonoBehaviour
     public string currentUser;
     public string currentPassword;
 
-
-
     public void CambiarEscena(string name)
     {
         if (string.IsNullOrEmpty(username.text) || string.IsNullOrEmpty(password.text))
@@ -36,7 +34,8 @@ public class Menu : MonoBehaviour
         dbManager.Opendatabase();
         Debug.Log("Base de datos abierta");
         dbManager.InitializeDB();       
-        dbManager.Login(currentUser, currentPassword);       
+        dbManager.Login(currentUser, currentPassword);
+        
 
     }
 }

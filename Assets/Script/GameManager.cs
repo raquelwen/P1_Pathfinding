@@ -45,6 +45,13 @@ public class GameManager : MonoBehaviour
         if (hud != null)
         {
             hud.ActualizarPuntos(PuntosTotales);
+                if(puntosTotales == 1)
+            {
+                dbManager.Opendatabase();
+                dbManager.SqlUpdate(puntosTotales);
+                Debug.Log(puntosTotales);
+                
+            }
         }
         else
         {
@@ -92,7 +99,8 @@ public class GameManager : MonoBehaviour
 
     public void GanarJuego()
     {
-        if(puntosTotales == 1)
+        //dbManager.SqlDelete("p");
+        if (puntosTotales == 12)
         {
             if (dbManager != null)
             {

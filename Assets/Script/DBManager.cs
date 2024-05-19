@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
 using UnityEditor.Experimental.GraphView;
 using static UnityEditor.PlayerSettings;
+using Unity.VisualScripting;
 
 public class DBManager : MonoBehaviour
 {
@@ -23,15 +24,16 @@ public class DBManager : MonoBehaviour
     private string SQL_COUNT_ELEMENTS = "SELECT count(*) FROM Players;";
     private string SQL_CREATE_USER = "CREATE TABLE IF NOT EXISTS Users" +
         "(Id INTEGER UNIQUE NOT NULL PRIMARY KEY" +
-        //", PlayerId INTEGER NOT NULL DEFAULT 0" +
+        ", PlayerId INTEGER NOT NULL DEFAULT 0" +
         ", Puntos INTEGER NOT NULL DEFAULT 0" +
         ", Vida INTEGER NOT NULL DEFAULT 0" +
-        ", FOREIGN KEY(Id) REFERENCES Players(Id));";
-    private string[] USUARIOS = { "Alejandro", "Raquel", "Shara", "Ainoa", "Ricardo", "Carlos"};
+        ", FOREIGN KEY(PlayerId) REFERENCES Players(Id));";
+    
+    //private string[] USUARIOS = { "Alejandro", "Raquel", "Shara", "Ainoa", "Ricardo", "Carlos"};
     public Menu menu;
     public IDbConnection dbConnection;
     public GameManager gameManager;
-
+   
     void Start()
     {
         Debug.Log("Start");
@@ -71,8 +73,8 @@ public class DBManager : MonoBehaviour
             Debug.Log("Insertando datos de login");
                 string command = "INSERT INTO Players (User, Password) VALUES ";
                 command += $"('{user}', '{password}'),";
-                Debug.Log(command);
-                command = command.Remove(command.Length - 1, 1);
+                Debug.Log(command);            
+            command = command.Remove(command.Length - 1, 1);
                 command += ";";
 
             IDbCommand dbCommand = dbConnection.CreateCommand();
@@ -86,7 +88,7 @@ public class DBManager : MonoBehaviour
     {
         Debug.Log("Insertando datos del juego");
         string command = "INSERT INTO Users (Puntos, Vida) VALUES ";
-        command += $"('{puntos}', '{vidas}'),";
+        command += $"('{puntos}','{vidas}'),";
         Debug.Log(command);
         command = command.Remove(command.Length - 1, 1);
         command += ";";
@@ -94,8 +96,8 @@ public class DBManager : MonoBehaviour
         IDbCommand dbCommand = dbConnection.CreateCommand();
         dbCommand.CommandText = command;
         dbCommand.ExecuteNonQuery();
-
     }
+
 
     //public void AddRandomData()
     //{
@@ -171,6 +173,50 @@ public class DBManager : MonoBehaviour
         return true;
     }
 
+    public void SqlUpdate(int puntos)
+    {
+        string columnName = "Puntos";
+        string commandText = $"UPDATE Users SET {columnName} = @puntos";
+
+        // Logging the command for debugging
+        Debug.Log($"Executing SQL Command: {commandText} with puntos = {puntos}");
+
+        using (IDbCommand dbCommand = dbConnection.CreateCommand())
+        {
+            dbCommand.CommandText = commandText;
+
+            //Evitar inyeccion SQL 
+            IDbDataParameter parameter = dbCommand.CreateParameter();
+            parameter.ParameterName = "@puntos";
+            parameter.Value = puntos + 1;
+            dbCommand.Parameters.Add(parameter);
+
+            dbCommand.ExecuteNonQuery();
+        }
+    }
+
+    //public void SqlDelete(string user)
+    //{
+    //    string commandText = "DELETE FROM Players WHERE User = @user";
+
+    //    // Logging the command for debugging
+    //    Debug.Log($"Executing SQL Command: {commandText} with user = {user}");
+
+    //    using (IDbCommand dbCommand = dbConnection.CreateCommand())
+    //    {
+    //        dbCommand.CommandText = commandText;
+
+    //        // Create and add parameter to avoid SQL injection
+    //        IDbDataParameter parameter = dbCommand.CreateParameter();
+    //        parameter.ParameterName = "@user";
+    //        parameter.Value = user;
+    //        dbCommand.Parameters.Add(parameter);
+
+    //        dbCommand.ExecuteNonQuery();
+    //    }
+    //}
+
+    
     private int CountNumberElements()
     {
         IDbCommand dbCommand = dbConnection.CreateCommand();
